@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Home from "./Pages/Home.vue";
-import Button from "./Components/Button.vue";
+import store from "./store/store.ts";
+import { provide } from "vue";
+provide("store", store);
 </script>
 
 <template>
-  <Home />
-  <Button />
+  <RouterView></RouterView>
 </template>
