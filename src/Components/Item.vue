@@ -3,6 +3,7 @@ export type ItemProps = {
   svgPath: string;
   text: string;
   altText: string;
+  routePass: string;
 };
 defineProps<ItemProps>();
 </script>
@@ -18,9 +19,10 @@ defineProps<ItemProps>();
         :alt="altText"
       />
     </div>
-
-    <div class="bg-[#fff] ml-[2rem] text-[#313E51] text-[1.75rem]">
-      {{ text }}
-    </div>
+    <RouterLink class="bg-[#fff]" :to="routePass">
+      <div class="bg-[#fff] ml-[2rem] text-[#313E51] text-[1.75rem]">
+        {{ text }}
+      </div>
+    </RouterLink>
   </div>
 </template>
