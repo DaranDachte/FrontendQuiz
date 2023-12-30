@@ -32,7 +32,7 @@
             {{ option }}
           </div>
         </div>
-        <div><Button @click="emitAnswer" /></div>
+        <div><Button @click="submit" /></div>
       </div>
     </div>
   </div>
@@ -41,10 +41,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { inject } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+
 import Button from "../Components/Button.vue";
 
-const route = useRoute();
+const route = useRoute(); //для параметров
+const router = useRouter(); // для навигации
 const state = inject("store");
 
 const letters = ["A", "B", "C", "D"];
@@ -52,10 +54,12 @@ const letters = ["A", "B", "C", "D"];
 const currentStepID = parseInt(route.params.stepId as string, 10); // TODO: add validation
 const currentQuizType = route.params.quizType as string;
 
-const title = state[currentQuizType].title;
-const stepCount = state[currentQuizType].questions.length;
+state.setCurrentQuiz(currentQuizType);
 
-const currentQuestion = state[currentQuizType].questions[currentStepID - 1];
+const title = state.getTitle();
+const stepCount = state.getLength();
+
+const currentQuestion = state.getCurrentQuestion(currentStepID - 1);
 
 const currentAnswer = ref<string>("");
 
@@ -63,11 +67,13 @@ const setCurrentAnswer = (option: string) => {
   currentAnswer.value = option;
 };
 
-const emit = defineEmits<{
-  (e: "setAnswer", currentQuizType: string, answer: string): void;
-}>();
-
-const emitAnswer = () => {
-  emit("setAnswer", currentQuizType, currentAnswer.value);
+const submit = () => {
+  state.setUserAnswer(currentAnswer.value);
+  currentAnswer.value = "";
+  router.push(
+    currentStepID === stepCount // степ каунт это сколько всего вопросов в массиве
+      ? "/finish"
+      : `/${currentQuizType}/step/${currentStepID + 1}`
+  );
 };
 </script>

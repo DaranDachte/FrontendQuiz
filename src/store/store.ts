@@ -1,4 +1,12 @@
-export default {
+import { reactive } from "vue";
+
+const answersStore = {
+  html: [],
+  css: [],
+  js: [],
+  acc: [],
+};
+const questionsStore = {
   html: {
     title: "HTML",
     icon: "./assets/images/icon-html.svg",
@@ -359,3 +367,54 @@ export default {
     ],
   },
 };
+
+const store = reactive({
+  answers: answersStore,
+  questions: questionsStore,
+  currentQuiz: "",
+  score: 0,
+
+  setCurrentQuiz(quizType: string) {
+    this.currentQuiz = quizType;
+  },
+  getTitle() {
+    const type = this.currentQuiz;
+    return this.questions[type].title;
+  },
+  getLength() {
+    const type = this.currentQuiz;
+    return this.questions[type].questions.length;
+  },
+
+  getCurrentQuestion(index: number) {
+    const type = this.currentQuiz;
+    return this.questions[type].questions[index];
+  },
+
+  setUserAnswer(answer: string) {
+    const type = this.currentQuiz;
+    this.answers[type].push(answer);
+  },
+
+  reset() {
+    this.answers = {
+      html: [],
+      css: [],
+      js: [],
+      acc: [],
+    };
+    this.currentQuiz = "";
+    this.score = 0;
+  },
+
+  getScore() {
+    const answers: string[] = this.question[this.currentQuiz].questions.map(
+      (q) => q.answer
+    );
+    this.score = this.answers[this.currentQuiz].filter((a) =>
+      answers.includes(a)
+    ).length;
+  },
+});
+
+export default store;

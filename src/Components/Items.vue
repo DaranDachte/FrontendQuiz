@@ -11,25 +11,25 @@ const state = inject("store");
 
 const list: ItemProps[] = [
   {
-    text: state.html.title,
+    text: state.questions.html.title,
     altText: "HTMLSvg",
     svgPath: HtmlSvg,
     routePass: "/html/step/1",
   },
   {
-    text: state.css.title,
+    text: state.questions.css.title,
     altText: "CSS",
     svgPath: CssSvg,
     routePass: "/css/step/1",
   },
   {
-    text: state.js.title,
+    text: state.questions.js.title,
     altText: "JS",
     svgPath: JSSvg,
     routePass: "/js/step/1",
   },
   {
-    text: state.acc.title,
+    text: state.questions.acc.title,
     altText: "AccessibilitySvg",
     svgPath: AccessibilitySvg,
     routePass: "/acc/step/1",
