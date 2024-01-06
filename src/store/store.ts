@@ -1,11 +1,18 @@
 import { reactive } from "vue";
+type Question = {
+  question: string;
+  options: string[];
+  answer: string;
+};
+export type AnswersState = { [key: string]: string[] };
 
-const answersStore = {
+const answersStore: AnswersState = {
   html: [],
   css: [],
   js: [],
   acc: [],
 };
+
 const questionsStore = {
   html: {
     title: "HTML",
@@ -368,7 +375,10 @@ const questionsStore = {
   },
 };
 
+export type Questions = typeof questionsStore;
+
 const store = reactive({
+  // reactive это контейнер с объектом, в который мы собираем стейт.
   answers: answersStore,
   questions: questionsStore,
   currentQuiz: "",
@@ -377,17 +387,18 @@ const store = reactive({
   setCurrentQuiz(quizType: string) {
     this.currentQuiz = quizType;
   },
+
   getTitle() {
-    const type = this.currentQuiz;
+    const type = this.currentQuiz as keyof Questions;
     return this.questions[type].title;
   },
   getLength() {
-    const type = this.currentQuiz;
+    const type = this.currentQuiz as keyof Questions;
     return this.questions[type].questions.length;
   },
 
   getCurrentQuestion(index: number) {
-    const type = this.currentQuiz;
+    const type = this.currentQuiz as keyof Questions;
     return this.questions[type].questions[index];
   },
 
@@ -408,8 +419,9 @@ const store = reactive({
   },
 
   getScore() {
-    const answers: string[] = this.question[this.currentQuiz].questions.map(
-      (q) => q.answer
+    const type = this.currentQuiz as keyof Questions;
+    const answers: string[] = this.questions[type].questions.map(
+      (q: Question) => q.answer
     );
     this.score = this.answers[this.currentQuiz].filter((a) =>
       answers.includes(a)
@@ -417,4 +429,5 @@ const store = reactive({
   },
 });
 
+export type StoreT = typeof store;
 export default store;

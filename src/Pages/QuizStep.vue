@@ -32,7 +32,7 @@
             {{ option }}
           </div>
         </div>
-        <div><Button @click="submit" /></div>
+        <div><Button @click="submit" button-text="Submit Answer" /></div>
       </div>
     </div>
   </div>
@@ -42,12 +42,13 @@
 import { ref } from "vue";
 import { inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
-
+import type { StoreT } from "../store/store";
 import Button from "../Components/Button.vue";
 
-const route = useRoute(); //для параметров
-const router = useRouter(); // для навигации
-const state = inject("store");
+const route = useRoute(); //для извлечения параметров quizType  и StepId
+const router = useRouter(); // для навигации на следующий путь
+
+const state = inject<StoreT>("store")!;
 
 const letters = ["A", "B", "C", "D"];
 

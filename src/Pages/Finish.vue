@@ -10,21 +10,15 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div class="text-[1.25rem] italic text-[#626C7F] mt-[3rem]">
-          {{ state.currentQuiz }} QUIZ
-        </div>
+        <div class="text-[1.25rem] italic text-[#626C7F] mt-[3rem]"></div>
         <div
           class="flex w-[35.25rem] h-[6rem] bg-[#FFF] border-4 p-[1.25rem] rounded-3xl cursor-pointer items-center mb-[1.5rem] shadow-[#8fa0c1]/15 shadow-[0px_16px_40px_0px]`"
         >
-          <div
-            class="rounded w-[3.5rem] h-[3.5rem] flex items-center justify-center cursor-pointer"
-          ></div>
-
           <div class="bg-[#fff] ml-[2rem] text-[#313E51] text-[1.75rem]">
-            {{ state.score }}
+            {{ state.currentQuiz }} QUIZ: {{ state.score }} of 10
           </div>
         </div>
-        <div><Button @click="playAgain" /></div>
+        <div><Button @click="playAgain" button-text="Play Again" /></div>
       </div>
     </div>
   </div>
@@ -33,7 +27,9 @@
 <script setup lang="ts">
 import { inject } from "vue";
 import { useRouter } from "vue-router";
-const state = inject("store");
+import Button from "../Components/Button.vue";
+import type { StoreT } from "../store/store";
+const state = inject<StoreT>("store")!;
 state.getScore();
 const router = useRouter();
 const playAgain = () => {

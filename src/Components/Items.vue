@@ -5,9 +5,9 @@ import HtmlSvg from "../assets/img/Html.svg";
 import CssSvg from "../assets/img/Css.svg";
 import JSSvg from "../assets/img//JS.svg";
 import AccessibilitySvg from "../assets/img/Accessibility.svg";
-
 import Item from "./Item.vue";
-const state = inject("store");
+import type { StoreT } from "../store/store";
+const state = inject<StoreT>("store")!;
 
 const list: ItemProps[] = [
   {
